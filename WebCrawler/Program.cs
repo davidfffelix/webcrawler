@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 
 class Program
 {
@@ -10,6 +11,8 @@ class Program
 
         using HttpClient client = new HttpClient();
         string html = await client.GetStringAsync(url);
+        HtmlDocument doc = new HtmlDocument();
+        doc.LoadHtml(html);
 
         Console.WriteLine(html);
     }
