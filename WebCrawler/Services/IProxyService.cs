@@ -1,5 +1,10 @@
-public interface IProxyService
+using WebCrawler.Models;
+
+namespace WebCrawler.Services
 {
-    Task<List<Proxy>> FetchProxiesMultithreadedAsync();
-    Task SaveProxiesAsJsonAsync(List<Proxy> proxies);
+    public interface IProxyService
+    {
+        Task<List<Proxy>> FetchProxiesMultithreadedAsync();
+        Task SaveProxiesAsJsonAsync(List<Proxy> proxies);
+    }
 }
