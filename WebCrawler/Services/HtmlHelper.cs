@@ -1,11 +1,11 @@
-using System.IO;
-using System.Threading.Tasks;
-
-public static class HtmlHelper
+namespace WebCrawler.Services
 {
-    public static async Task SaveHtmlContentAsync(string html, int page)
+    public static class HtmlHelper
     {
-        string path = $"pagina_{page}.html";
-        await File.WriteAllTextAsync(path, html);
+        public static async Task SaveHtmlContentAsync(string html, int page)
+        {
+            string path = $"pagina_{page}.html";
+            await File.WriteAllTextAsync(path, html);
+        }
     }
 }
