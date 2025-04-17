@@ -1,0 +1,58 @@
+##################
+# DOTNET/C# Setup #
+##################
+
+# Diretórios de build
+bin/
+obj/
+
+# Arquivos gerados na compilação
+*.dll
+*.exe
+*.pdb
+*.apphost.exe
+*.cache
+*.runtimeconfig.json
+*.deps.json
+*.sourcelink.json
+
+# Arquivos temporários e de log
+*.log
+*.tmp
+*.bak
+
+#####################
+# Visual Studio Code #
+#####################
+
+.vscode/
+*.code-workspace
+
+################
+# Sistema Linux/macOS #
+################
+
+.DS_Store
+*.swp
+*~
+
+################
+# Secrets e configs locais #
+################
+
+.env
+secrets.json
+config.local.json
+
+###################
+# Rider (caso use JetBrains) #
+###################
+
+.idea/
+
+###################
+# Manter arquivos úteis #
+###################
+
+!proxies.json
+!settings.json
