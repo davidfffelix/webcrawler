@@ -8,18 +8,19 @@ namespace WebCrawler.Services
 {
     public class ProxyService : IProxyService
     {
-        private readonly HttpClient _client;
+        private readonly HttpClient _httpClient = new HttpClient();
         private const string BaseUrl = "https://proxyservers.pro/proxy/list/order/updated/order_dir/desc/page/";
-        private const int MaxPagesToCheck = 20;
+        private const int MaxPagesToCheck = 30;
 
+        // Construtor
         public ProxyService()
         {
-            _client = new HttpClient
+            _httpClient = new HttpClient
             {
                 Timeout = TimeSpan.FromSeconds(60)
             };
-            _client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-            _client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+            _httpClient.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml");
         }
 
         public async Task<List<Proxy>> FetchProxiesMultithreadedAsync()
@@ -40,10 +41,14 @@ namespace WebCrawler.Services
                     try
                     {
                         string url = BaseUrl + currentPage;
+                        // Baixa Conteúdo HTML
                         string html = await FetchHtmlPage(url);
                         if (html == null) return;
 
+                        // Salva o Conteúdo HTML no arquivo pagina_1.html
                         await HtmlHelper.SaveHtmlContentAsync(html, currentPage);
+
+                        //Carrega o HTML na memória para o programa analisar e extrair os dados
                         var htmlDoc = new HtmlDocument();
                         htmlDoc.LoadHtml(html);
 
@@ -71,16 +76,17 @@ namespace WebCrawler.Services
             return proxies.ToList();
         }
 
+        // Traz o conteúdo HTML
         private async Task<string> FetchHtmlPage(string url)
         {
             try
             {
-                return await _client.GetStringAsync(url);
+                return await _httpClient.GetStringAsync(url);
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"Falha ao acessar {url}: {ex.Message}");
-                return null;
+                throw new InvalidOperationException($"Falha ao buscar HTML da URL: {url}", ex);
             }
         }
 
